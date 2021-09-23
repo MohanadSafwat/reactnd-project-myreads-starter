@@ -10,8 +10,7 @@ class SearchPage extends Component {
   };
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    // Are we adding new items to the list?
-    // Capture the scroll position so we can adjust scroll later.
+
     if (prevState.query !== this.state.query) {
       return 1;
     }
@@ -26,12 +25,13 @@ class SearchPage extends Component {
         });
       } else {
         BooksAPI.search(this.state.query).then((searchedBooks) => {
-          if (searchedBooks.error === "empty query") {
+          if (searchedBooks.error ==="empty query") {
             searchedBooks = [];
           }
-          this.setState((prev) => {
-            return { ...prev, searchedBooks: searchedBooks, loading: false };
-          });
+            this.setState((prev) => {
+              return { ...prev, searchedBooks: searchedBooks, loading: false};
+            });
+          
         });
       }
     }
@@ -41,15 +41,9 @@ class SearchPage extends Component {
       const newValue = e.target.value;
       this.setState((prev) => {
         var loading = true;
-        if (newValue === "") {
-          loading = false;
-          const books = [];
-          return {
-            ...prev,
-            query: newValue,
-            loading: loading,
-            searchedBooks: books,
-          };
+        if (newValue === ""){ loading = false;
+        const books = [];
+        return { ...prev, query: newValue, loading: loading ,searchedBooks:books };
         }
         return { ...prev, query: newValue, loading: loading };
       });
@@ -82,7 +76,6 @@ class SearchPage extends Component {
             <div>Loading...</div>
           ) : (
             <ol className="books-grid">
-              {console.log(this.state)}
               {typeof this.state.searchedBooks !== "undefined"
                 ? this.state.searchedBooks.map((book, id) => {
                     return (
