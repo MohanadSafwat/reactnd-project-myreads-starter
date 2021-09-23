@@ -9,18 +9,21 @@ import {Route} from 'react-router'
 import SearchPage from './SearchPage'
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+ 
   }
  
-
+  
   componentDidMount(){
     BooksAPI.getAll().then(
       (books)=>{
         this.setState(()=>({books}))
-        console.log(books)
+        // console.log(books)
 
       }
     )
+
+
 
   }
   render() {

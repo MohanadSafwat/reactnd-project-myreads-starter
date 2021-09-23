@@ -12,7 +12,7 @@ class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: "url(" + info.imageLinks.smallThumbnail + ")",
+              backgroundImage: info.imageLinks && "url(" +   info.imageLinks.smallThumbnail + ")",
             }}
           />
           <div className="book-shelf-changer">
@@ -27,8 +27,8 @@ class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{info.title}</div>
-        {info.authors.map((author, id) => {
+        <div className="book-title">{info.title && info.title}</div>
+        {info.authors && info.authors.map((author, id) => {
           return <div key={id} className="book-authors">{author}</div>;
         })}
       </div>

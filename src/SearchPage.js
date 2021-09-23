@@ -1,15 +1,63 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import * as BooksAPI from "./BooksAPI";
+import Book from "./Book";
 class SearchPage extends Component {
+  state = {
+    loading: false,
+    query: "",
+    searchedBooks: [],
+  };
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the scroll position so we can adjust scroll later.
+    if (prevState.query !== this.state.query) {
+      return 1;
+    }
+    return null;
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot === 1) {
+      if (this.state.query === "") {
+        this.setState((prev) => {
+          const searchedBooks = [];
+          return { ...prev, searchedBooks: searchedBooks, loading: false };
+        });
+      } else {
+        BooksAPI.search(this.state.query).then((searchedBooks) => {
+          if (searchedBooks.error === "empty query") {
+            searchedBooks = [];
+          }
+          this.setState((prev) => {
+            return { ...prev, searchedBooks: searchedBooks, loading: false };
+          });
+        });
+      }
+    }
+  }
   render() {
+    const changeHandle = (e) => {
+      const newValue = e.target.value;
+      this.setState((prev) => {
+        var loading = true;
+        if (newValue === "") {
+          loading = false;
+          const books = [];
+          return {
+            ...prev,
+            query: newValue,
+            loading: loading,
+            searchedBooks: books,
+          };
+        }
+        return { ...prev, query: newValue, loading: loading };
+      });
+    };
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link
-            className="close-search"
-            to='/'
-          >
+          <Link className="close-search" to="/">
             Close
           </Link>
           <div className="search-books-input-wrapper">
@@ -21,11 +69,31 @@ class SearchPage extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author" />
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={this.state.query}
+              onChange={changeHandle}
+            />
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid" />
+          {this.state.loading ? (
+            <div>Loading...</div>
+          ) : (
+            <ol className="books-grid">
+              {console.log(this.state)}
+              {typeof this.state.searchedBooks !== "undefined"
+                ? this.state.searchedBooks.map((book, id) => {
+                    return (
+                      <li key={id}>
+                        <Book info={book} />
+                      </li>
+                    );
+                  })
+                : null}
+            </ol>
+          )}
         </div>
       </div>
     );
