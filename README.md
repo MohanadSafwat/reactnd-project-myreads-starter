@@ -47,7 +47,7 @@ To simplify your development process, we've provided a backend server for you to
 
 Method Signature:
 
-```js
+```
 getAll()
 ```
 
