@@ -6,10 +6,10 @@ class Book extends Component {
     shelf: "",
   };
   componentDidUpdate() {
-    this.state.id !== "" &&
-      this.state.shelf !== "" &&
-      BooksAPI.update(this.state.id, this.state.shelf).then((book) => {
-      });
+    // this.state.id !== "" &&
+    //   this.state.shelf !== "" &&
+    //   // BooksAPI.update(this.state.id, this.state.shelf).then((book) => {
+    //   // });
      
 
      
