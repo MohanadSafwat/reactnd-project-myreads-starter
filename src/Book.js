@@ -10,10 +10,11 @@ class Book extends Component {
       this.state.shelf !== "" &&
       BooksAPI.update(this.state.id, this.state.shelf).then((book) => {
       });
+     
+
+     
   }
-  componentDidMount() {
-    document.getElementById(this.props.info.id).value = this.props.info.shelf;
-  }
+ 
   render() {
     const { info } = this.props;
 
@@ -22,6 +23,7 @@ class Book extends Component {
       const shelf = event.target.value;
 
       this.setState({ id: id, shelf: shelf });
+
     };
     return (
       <div className="book">
@@ -37,7 +39,7 @@ class Book extends Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select  id={info.id} onChange={selectHandle}>
+            <select value={info.shelf?info.shelf:"none"} id={info.id} onChange={selectHandle}>
               <option value="move" disabled>
                 Move to...
               </option>

@@ -10,7 +10,6 @@ class SearchPage extends Component {
   };
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-
     if (prevState.query !== this.state.query) {
       return 1;
     }
@@ -25,13 +24,14 @@ class SearchPage extends Component {
         });
       } else {
         BooksAPI.search(this.state.query).then((searchedBooks) => {
-          if (searchedBooks.error ==="empty query") {
+          if (searchedBooks.error === "empty query") {
             searchedBooks = [];
           }
-            this.setState((prev) => {
-              return { ...prev, searchedBooks: searchedBooks, loading: false};
-            });
-          
+          this.setState((prev) => {
+            console.log(searchedBooks);
+
+            return { ...prev, searchedBooks: searchedBooks, loading: false };
+          });
         });
       }
     }
@@ -41,9 +41,15 @@ class SearchPage extends Component {
       const newValue = e.target.value;
       this.setState((prev) => {
         var loading = true;
-        if (newValue === ""){ loading = false;
-        const books = [];
-        return { ...prev, query: newValue, loading: loading ,searchedBooks:books };
+        if (newValue === "") {
+          loading = false;
+          const books = [];
+          return {
+            ...prev,
+            query: newValue,
+            loading: loading,
+            searchedBooks: books,
+          };
         }
         return { ...prev, query: newValue, loading: loading };
       });
@@ -77,10 +83,29 @@ class SearchPage extends Component {
           ) : (
             <ol className="books-grid">
               {typeof this.state.searchedBooks !== "undefined"
-                ? this.state.searchedBooks.map((book, id) => {
+                ? this.state.searchedBooks.map((book) => {
+                    var flag = true;
                     return (
-                      <li key={id}>
-                        <Book info={book} />
+                      <li key={book.id}>
+                        {this.props.mainPageBooks
+                          .filter((mainPageBook) => {
+                            return mainPageBook.id === book.id;
+                          })
+                          .map((mainPageBook) => {
+                            flag = false;
+                            return (
+                              <Book
+                                key={mainPageBook.id}
+                                info={mainPageBook}
+                              />
+                            );
+                          })}
+                        {flag && (
+                          <Book
+                            key={book.id}
+                            info={book}
+                          />
+                        )}
                       </li>
                     );
                   })
