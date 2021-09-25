@@ -1,4 +1,5 @@
 # Description
+   
     * It is a simple application implemented using ReactJS
     * It is a small Library for books
     * The main page that has 3 main shelfs
@@ -10,5 +11,6 @@
     * All the books are brought by API
 
 # How to install
+  
     You can install the project throught this command line 
     ` npm install ` 
