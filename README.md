@@ -10,9 +10,10 @@
 * It also has a search tool to add new books
 * All the books are brought by API
 
-# How to install
+# How to install the project
   
-You can install the project throught this command line 
-```js
-npm install 
-``` 
+You can install the project throught this command line `npm install` 
+
+# How to start using the project
+  
+You can start using the project throught this command line `npm start` 
