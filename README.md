@@ -10,4 +10,5 @@
     * All the books are brought by API
 
 # How to install
-    You can install the project throught this command line `npm install` 
+    You can install the project throught this command line 
+    ` npm install ` 
