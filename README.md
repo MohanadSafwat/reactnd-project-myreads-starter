@@ -13,4 +13,6 @@
 # How to install
   
 You can install the project throught this command line 
-    ` npm install ` 
+```js
+npm install 
+``` 
